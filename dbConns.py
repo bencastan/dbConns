@@ -1,6 +1,9 @@
 #!/usr/bin/python
 #Script to check on the number of DB idle connections
-
+#@TODO check for the number of idle db queries
+#@TODO work out the correct value to trigger the deletes at is it > 150 I have seen the sites lock up when it gets to 300 or more
+#@TODO make the script object orinetated break each section into functions that can be called as needed.
+#@TODO make sure as many of the require variable are defined in an editable text file.
 
 import psycopg2
 import sys
