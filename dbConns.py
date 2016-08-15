@@ -8,7 +8,7 @@ import sys
 db_host = 'db-01.sitesuite.net'
 database = 'ss'
 db_user = 'ss'
-db_password = 'maid3fee'
+db_password = ''
 interval = "'5'"
 max_limit = 200
 
@@ -28,7 +28,7 @@ try:
     print "\nRows: \n"
     for row in rows:
         print row[0]
-        
+
 
     #ver = cur.fetchone()
     #print ver
