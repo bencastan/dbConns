@@ -14,10 +14,10 @@ db_host = 'db-01.sitesuite.net'
 database = 'ss'
 db_user = 'ss'
 db_password = ''
-interval = "'5 minutes'"
-countMin = 5
-countMid= 20
-countMax = 30
+queryAge = "'5 minutes'"
+countMin = 50
+countMid= 100
+countMax = 150
 
 con = None
 
@@ -29,7 +29,7 @@ def dbConnect():
         cur = con.cursor()
         #cur.execute('SELECT version()')
         try:
-            cur.execute("SELECT count(*) from pg_stat_activity where usename = 'ss' and state = 'idle' and query_start < current_timestamp - interval '60 minutes';")
+            cur.execute("SELECT count(*) from pg_stat_activity where usename = 'ss' and state = 'idle' and query_start < current_timestamp - interval '5 minutes';")
         except:
             print "I can't SELECT from pg_stat_activity"
 
@@ -49,15 +49,20 @@ def dbConnect():
         if con:
             con.close()
 
+def display(textColour, rowCount):
+    print (textColour + "Idle queries: > " + queryAge + " "+ str(rowCount))
 
 
 rowCount = dbConnect()
-if rowCount < countMin :
-    print (Fore.GREEN + "Idle queries: " + str(rowCount))
+if rowCount < countMid:
+    display(Fore.GREEN, rowCount)
+    #print (Fore.GREEN + "Idle queries: " + str(rowCount))
 elif rowCount >= countMid and rowCount <=countMax:
-    print(Fore.YELLOW + "Idle queries: " + str(rowCount))
+    display(Fore.YELLOW, rowCount)
+    #print(Fore.YELLOW + "Idle queries: " + str(rowCount))
 elif rowCount >= countMax:
-    print (Fore.RED + "Idle queries: " + str(rowCount))
+    display(Fore.RED, rowCount)
+    #print (Fore.RED + "Idle queries: " + str(rowCount))
 
 #query = "select count(*) from pg_stat_activity where usename = 'ss' and state = 'idle'and query_start < current_timestamp - interval interval;"
 
